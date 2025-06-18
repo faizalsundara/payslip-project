@@ -4,6 +4,7 @@ import (
 	"errors"
 	"salaries-payslip/config"
 	"salaries-payslip/models"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -25,9 +26,12 @@ func (pyl *payrollService) PayrollPeriod(periodId uuid.UUID, adminID uuid.UUID) 
 	}
 	payroll := models.Payroll{
 		ID:        uuid.New(),
+		StartDate: attendPeriode.StartDate,
+		EndDate:   attendPeriode.EndDate,
 		PeriodID:  periodId,
 		IsPaid:    "I",
 		CreatedBy: adminID,
+		CreatedAt: time.Now(),
 	}
 	errCreate := config.DB.Create(&payroll).Error
 	if errCreate != nil {

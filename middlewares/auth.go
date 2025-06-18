@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -21,7 +20,6 @@ func AuthMiddleware(role string) gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing token"})
 			return
 		}
-		fmt.Println("tokennn", tokenStr)
 
 		if strings.HasPrefix(tokenStr, "Bearer ") {
 			tokenStr = strings.TrimPrefix(tokenStr, "Bearer ")

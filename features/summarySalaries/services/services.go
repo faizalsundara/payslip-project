@@ -14,7 +14,7 @@ func NewSummaryService() SummarySalariesInterface {
 	return &SummarySalariesService{}
 }
 
-func (SS *SummarySalariesService) SummaryTHP(userID uuid.UUID, periodID uuid.UUID) (models.SummarySalariesRes, error) {
+func (SS *SummarySalariesService) SummaryTHP(userID uuid.UUID) (models.SummarySalariesRes, error) {
 	var SummaryPayslip models.Payslip
 
 	type SummaryPayslipWithUser struct {

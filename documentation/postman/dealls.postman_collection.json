@@ -30,7 +30,7 @@
 					]
 				},
 				"url": {
-					"raw": ":8080/users?limit=10&offset=5",
+					"raw": ":8080/users?limit=10&offset=10",
 					"port": "8080",
 					"path": [
 						"users"
@@ -42,7 +42,7 @@
 						},
 						{
 							"key": "offset",
-							"value": "5"
+							"value": "10"
 						}
 					]
 				}
@@ -56,7 +56,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"Koelpin5732942\",\r\n    \"password\":\"password123\"\r\n}",
+					"raw": "{\r\n    \"username\":\"Buckridge4122676\",\r\n    \"password\":\"password123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -82,7 +82,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMDU3MzgsInJvbGUiOiJlbXBsb3llZSIsInVzZXJfaWQiOiIwNDUxZTI2NS04M2VmLTRlNzQtOTM4My1mOGZiN2Q3OTRhMzQifQ.NTDK0fqLXxei7zjuV8eQcMHBBANqmAklz5OozHoM8pw",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTEyNjIsInJvbGUiOiJlbXBsb3llZSIsInVzZXJfaWQiOiJlM2NiOTdmMy0xM2IyLTQ0NTEtYjJkNi1mMjFkM2Y5ZjQxMWIifQ.5MCwj5mV7bjjJ1mBbXo4TtsEInqd6dVCOKEu-EHueIw",
 							"type": "string"
 						}
 					]
@@ -112,6 +112,16 @@
 		{
 			"name": "employee/logout-time",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTA0MzksInJvbGUiOiJlbXBsb3llZSIsInVzZXJfaWQiOiJlM2NiOTdmMy0xM2IyLTQ0NTEtYjJkNi1mMjFkM2Y5ZjQxMWIifQ.e9edY4YJAPVUporCqp3xT7ECrDkZbEcRFX3jT_dXtpQ",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -137,11 +147,21 @@
 		{
 			"name": "admin/attendance-period",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTE5NjUsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiI1MzkyNWNmOS03M2UxLTQ0YzEtYTVjYi02MDA3MzhjY2UyZDIifQ.OLYwv7R4n__AVFruj-FFovhhxymmRjDYS3c3tY4HKLU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"startDate\": \"2025-06-01\",\r\n    \"endDate\": \"2025-06-30\"\r\n}",
+					"raw": "{\r\n    \"startDate\": \"2025-05-01\",\r\n    \"endDate\": \"2025-05-30\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -162,6 +182,16 @@
 		{
 			"name": "employee/overtime",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTEyNjIsInJvbGUiOiJlbXBsb3llZSIsInVzZXJfaWQiOiJlM2NiOTdmMy0xM2IyLTQ0NTEtYjJkNi1mMjFkM2Y5ZjQxMWIifQ.5MCwj5mV7bjjJ1mBbXo4TtsEInqd6dVCOKEu-EHueIw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -187,11 +217,21 @@
 		{
 			"name": "employee/reimbursement",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTEyNjIsInJvbGUiOiJlbXBsb3llZSIsInVzZXJfaWQiOiJlM2NiOTdmMy0xM2IyLTQ0NTEtYjJkNi1mMjFkM2Y5ZjQxMWIifQ.5MCwj5mV7bjjJ1mBbXo4TtsEInqd6dVCOKEu-EHueIw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"amount\":50.000,\r\n    \"description\":\"membeli makan siang karyawan 2 orang\",\r\n    \"date\":\"2025-06-5\"\r\n}",
+					"raw": "{\r\n    \"amount\": 50000,\r\n    \"description\": \"membeli makan siang karyawan 2 orang\",\r\n    \"date\": \"2025-06-05\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -212,11 +252,21 @@
 		{
 			"name": "admin/payroll",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTE5NjUsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiI1MzkyNWNmOS03M2UxLTQ0YzEtYTVjYi02MDA3MzhjY2UyZDIifQ.OLYwv7R4n__AVFruj-FFovhhxymmRjDYS3c3tY4HKLU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"isPaid\": true,\r\n\t\"PeriodId\": \"50d9a26a-6ab6-4a2b-8043-4925fc639588\"\r\n}",
+					"raw": "{\r\n\t\"PeriodId\": \"0edde771-9cba-47d7-b070-71fb18925f8a\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -237,11 +287,21 @@
 		{
 			"name": "employee/payslip",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTEyNjIsInJvbGUiOiJlbXBsb3llZSIsInVzZXJfaWQiOiJlM2NiOTdmMy0xM2IyLTQ0NTEtYjJkNi1mMjFkM2Y5ZjQxMWIifQ.5MCwj5mV7bjjJ1mBbXo4TtsEInqd6dVCOKEu-EHueIw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"periodId\": \"50d9a26a-6ab6-4a2b-8043-4925fc639588\"\r\n}",
+					"raw": "{\r\n\t\"periodId\": \"0edde771-9cba-47d7-b070-71fb18925f8a\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -265,11 +325,21 @@
 				"disableBodyPruning": true
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTAzMTE5NjUsInJvbGUiOiJhZG1pbiIsInVzZXJfaWQiOiI1MzkyNWNmOS03M2UxLTQ0YzEtYTVjYi02MDA3MzhjY2UyZDIifQ.OLYwv7R4n__AVFruj-FFovhhxymmRjDYS3c3tY4HKLU",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"periodId\": \"50d9a26a-6ab6-4a2b-8043-4925fc639588\"\r\n}",
+					"raw": "{\r\n\t\"userID\": \"e3cb97f3-13b2-4451-b2d6-f21d3f9f411b\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
