@@ -28,7 +28,7 @@ Adapun fitur yang ada dalam RESTful API kami antara lain :
   
 | Feature Users | Endpoint | Param | JWT Token | Fungsi |
 | --- | --- | --- | --- | --- |
-| GET | users  | - | - | Melihat detail list user |
+| GET | users  | YES | - | Melihat detail list user |
 | POST | users/login | - | - | Melakukan login pada sistem slip pay |
 </details>
 
@@ -131,7 +131,7 @@ Summary Salaries merupakan fitur yang digunakan oleh admin untuk melihat take ho
 <a href="https://app.swaggerhub.com/apis-docs/faizalsundara/Test-BuddyKu/1.0.0/"><strong> Link »</strong></a>
 
 <!-- IMAGES -->
-### 🖼&nbsp;Images
+<!-- ### 🖼&nbsp;Images -->
 
 <!-- CONTACT -->
 ### Contact
