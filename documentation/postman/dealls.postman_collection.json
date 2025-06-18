@@ -50,7 +50,7 @@
 			"response": []
 		},
 		{
-			"name": "login",
+			"name": "user/login",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -75,7 +75,7 @@
 			"response": []
 		},
 		{
-			"name": "checkin",
+			"name": "employee/login-time",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -110,7 +110,7 @@
 			"response": []
 		},
 		{
-			"name": "checkout",
+			"name": "employee/logout-time",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -135,7 +135,7 @@
 			"response": []
 		},
 		{
-			"name": "attend-period",
+			"name": "admin/attendance-period",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -160,7 +160,7 @@
 			"response": []
 		},
 		{
-			"name": "overtime",
+			"name": "employee/overtime",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -185,7 +185,7 @@
 			"response": []
 		},
 		{
-			"name": "reimburs",
+			"name": "employee/reimbursement",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -210,7 +210,7 @@
 			"response": []
 		},
 		{
-			"name": "payroll",
+			"name": "admin/payroll",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -235,7 +235,7 @@
 			"response": []
 		},
 		{
-			"name": "payslip",
+			"name": "employee/payslip",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -260,7 +260,7 @@
 			"response": []
 		},
 		{
-			"name": "summary",
+			"name": "admin/summary-salaries",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},

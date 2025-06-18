@@ -131,10 +131,10 @@ Summary Salaries merupakan fitur yang digunakan oleh admin untuk melihat take ho
 <a href="https://app.swaggerhub.com/apis-docs/faizalsundara/Test-BuddyKu/1.0.0/"><strong> Link Swagger »</strong></a>
 
 ### Postman
-<a href="https://drive.google.com/file/d/1xS2XY6T0ayjCoUk1yAkfceS6e1wT91KT/view?usp=sharing"><strong> Link Postman »</strong></a>
+<a href="https://drive.google.com/file/d/15-vpV6wq5bF-fmzctzwQ3VzkHlFFqeax/view?usp=sharing"><strong> Link Postman »</strong></a>
 
 ### DDL
-<a href="https://drive.google.com/file/d/1tL6c6BFRfhfn2zDn4Ub4dFo1UmvIeZBK/view?usp=sharing"><strong> Link Script DDL »</strong></a>
+<a href="https://drive.google.com/file/d/1crbUVg5VAkr_WvMZ3PoaU8zASqcCEgEG/view?usp=sharing"><strong> Link Script DDL »</strong></a>
 <!-- IMAGES -->
 <!-- ### 🖼&nbsp;Images -->
 
