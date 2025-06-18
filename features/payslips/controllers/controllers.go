@@ -30,13 +30,14 @@ func (Pys *payslipController) CreatePayslip(c *gin.Context) {
 	}
 
 	periodID := uuid.MustParse(body.PeriodID)
-	adminID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	userID := uuid.MustParse(c.GetString("user_id"))
+	// userID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 
-	res, errorPaySlip := Pys.payslipService.CreatePaySlip(adminID, periodID)
+	res, errorPaySlip := Pys.payslipService.CreatePaySlip(userID, periodID)
 	if errorPaySlip != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseFailed(errorPaySlip.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, utils.ResponseSuccesWithData("Success", res))
+	c.JSON(http.StatusOK, utils.ResponseSuccesWithData("generate payslip success", res))
 	return
 }

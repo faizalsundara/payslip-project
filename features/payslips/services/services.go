@@ -1,8 +1,11 @@
 package services
 
 import (
+	"fmt"
 	"salaries-payslip/config"
 	"salaries-payslip/models"
+	"salaries-payslip/utils"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -13,7 +16,7 @@ func NewPayslipService() PayslipInterface {
 	return &PayslipService{}
 }
 
-func (Ps *PayslipService) CreatePaySlip(userId uuid.UUID, periodID uuid.UUID) (models.Payslip, error) {
+func (Ps *PayslipService) CreatePaySlip(userId uuid.UUID, periodID uuid.UUID) (models.PayslipRes, error) {
 	var attend models.Attendance
 	var user models.User
 	var ovTime models.Overtime
@@ -23,46 +26,54 @@ func (Ps *PayslipService) CreatePaySlip(userId uuid.UUID, periodID uuid.UUID) (m
 	var totalOvertimeHours float64
 	var totalReimburs float64
 
-	if errUser := config.DB.Where("userd_id = ?", userId).First(&user).Error; errUser != nil {
-		return models.Payslip{}, errUser
+	if errUser := config.DB.Where("id = ?", userId).First(&user).Error; errUser != nil {
+		return models.PayslipRes{}, errUser
 	}
 
-	if errPayroll := config.DB.Where("userd_id = ? AND ID = ? AND is_paid = ?", userId, periodID, true).First(&payroll).Error; errPayroll != nil {
-		return models.Payslip{}, errPayroll
+	if errPayroll := config.DB.Where("period_id = ? AND is_paid = ?", periodID, "I").First(&payroll).Error; errPayroll != nil {
+		return models.PayslipRes{}, errPayroll
 	}
 
-	if err := config.DB.Model(&attend).Where("userd_id = ?", userId).Where("date >= ? AND date <= ?", payroll.StartDate, payroll.EndDate).Count(&countAttend).Error; err != nil {
-		return models.Payslip{}, err
+	if err := config.DB.Model(&attend).Where("user_id = ?", userId).Where("date >= ? AND date <= ?", payroll.StartDate, payroll.EndDate).Count(&countAttend).Error; err != nil {
+		return models.PayslipRes{}, err
 	}
 
-	errOvt := config.DB.Model(&ovTime).
+	config.DB.Model(&ovTime).
 		Select("SUM(hours)").
 		Where("user_id = ?", userId).
-		Where("date >= ? AND date <= ?", payroll.StartDate, payroll.EndDate).
-		Scan(&totalOvertimeHours).Error
+		Where("date >= ? AND date <= ?", payroll.StartDate, payroll.EndDate).Scan(&totalOvertimeHours)
 
-	if errOvt != nil {
-		return models.Payslip{}, errOvt
-	}
+	// if errOvt != nil {
+	// 	return models.PayslipRes{}, errOvt
+	// }
 
-	errReimburs := config.DB.Model(&reimburs).
+	config.DB.Model(&reimburs).
 		Select("SUM(amount)").
 		Where("user_id = ?", userId).
 		Where("date >= ? AND date <= ?", payroll.StartDate, payroll.EndDate).
-		Scan(&totalReimburs).Error
+		Scan(&totalReimburs)
 
-	if errReimburs != nil {
-		return models.Payslip{}, errReimburs
-	}
+	// if errReimburs != nil {
+	// 	return models.PayslipRes{}, errReimburs
+	// }
 
 	totalDays := payroll.EndDate.Sub(payroll.StartDate).Hours() / 24
-	baseSalary := (user.Salary / totalDays) * float64(countAttend)
-	payOvertime := baseSalary / 8
-	thp := (float64(countAttend) * baseSalary) + totalReimburs + (2 * payOvertime)
-
+	salaryPerDay := (user.Salary / totalDays)
+	salaryPerHour := (user.Salary / totalDays) / 8
+	salaryPerAttend := salaryPerDay * float64(countAttend)
+	payOvertime := salaryPerHour * totalOvertimeHours * 2
+	fmt.Println("total_days", totalDays)
+	// thp := (float64(countAttend) * baseSalary) + totalReimburs + (2 * payOvertime)
+	thp := salaryPerAttend + totalReimburs + payOvertime
+	idUUID := uuid.New()
+	timeCreated := time.Now()
 	var InsertSlip = models.Payslip{
+		ID:                  idUUID,
 		PayrollID:           payroll.ID,
-		BaseSalary:          baseSalary,
+		BaseSalaryDay:       salaryPerDay,
+		BaseSalaryOvertime:  salaryPerHour,
+		SalaryThisMonth:     salaryPerAttend,
+		SalaryOvertimeTotal: payOvertime,
 		UserID:              userId,
 		TotalAttendanceDays: countAttend,
 		TotalOvertimeHours:  totalOvertimeHours,
@@ -70,21 +81,33 @@ func (Ps *PayslipService) CreatePaySlip(userId uuid.UUID, periodID uuid.UUID) (m
 		TakeHomePay:         thp,
 		StartDate:           payroll.StartDate,
 		EndDate:             payroll.EndDate,
+		CreatedAt:           timeCreated,
 	}
 	res := config.DB.Create(&InsertSlip)
 	if res.Error != nil {
-		return models.Payslip{}, res.Error
+		return models.PayslipRes{}, res.Error
 	}
 
-	return models.Payslip{
+	salaryDay := utils.ConvertFloatToString(salaryPerDay)
+	salaryHour := utils.ConvertFloatToString(salaryPerHour)
+	salaryAttend := utils.ConvertFloatToString(salaryPerAttend)
+	payOvt := utils.ConvertFloatToString(payOvertime)
+	payTHP := utils.ConvertFloatToString(thp)
+
+	return models.PayslipRes{
+		ID:                  idUUID,
 		PayrollID:           payroll.ID,
-		BaseSalary:          baseSalary,
+		BaseSalaryDay:       salaryDay + "IDR",
+		BaseSalaryOvertime:  salaryHour + "IDR",
+		SalaryThisMonth:     salaryAttend + "IDR",
+		SalaryOvertimeTotal: payOvt + "IDR",
 		UserID:              userId,
 		TotalAttendanceDays: countAttend,
 		TotalOvertimeHours:  totalOvertimeHours,
 		TotalReimbursements: totalReimburs,
-		TakeHomePay:         thp,
+		TakeHomePay:         payTHP + "IDR",
 		StartDate:           payroll.StartDate,
 		EndDate:             payroll.EndDate,
+		CreatedAt:           timeCreated,
 	}, nil
 }

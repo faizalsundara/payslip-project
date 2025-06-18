@@ -3,6 +3,7 @@ package services
 import (
 	"salaries-payslip/config"
 	"salaries-payslip/models"
+	"salaries-payslip/utils"
 
 	"github.com/google/uuid"
 )
@@ -13,37 +14,40 @@ func NewSummaryService() SummarySalariesInterface {
 	return &SummarySalariesService{}
 }
 
-func (SS *SummarySalariesService) SummaryTHP(userID uuid.UUID, payrollID uuid.UUID) (models.SummarySalariesRes, error) {
+func (SS *SummarySalariesService) SummaryTHP(userID uuid.UUID, periodID uuid.UUID) (models.SummarySalariesRes, error) {
 	var SummaryPayslip models.Payslip
 
 	type SummaryPayslipWithUser struct {
-		Payslip  models.Payslip
+		models.Payslip
 		Username string `json:"username"`
 	}
 
 	var result SummaryPayslipWithUser
 
-	var CountTHP int64
+	var SumTHP float64
 	err := config.DB.
-		Table("summary_playslips").
-		Select("summary_playslips.*, users.username").
-		Joins("left join users on users.id = summary_playslips.user_id").
-		Where("summary_playslips.user_id = ?", userID).
+		Table("payslips").
+		Select("payslips.*, users.username").
+		Joins("left join users on users.id = payslips.user_id").
+		Where("payslips.user_id = ?", userID).
 		First(&result).Error
 
 	if err != nil {
 		return models.SummarySalariesRes{}, err
 	}
 
-	if err := config.DB.Model(&SummaryPayslip).Where("payroll_id = ?", payrollID).Count(&CountTHP).Error; err != nil {
+	if err := config.DB.Model(&SummaryPayslip).Select("SUM(take_home_pay)").Where("payroll_id = ?", result.PayrollID).Scan(&SumTHP).Error; err != nil {
 		return models.SummarySalariesRes{}, err
 	}
+
+	payTHP := utils.ConvertFloatToString(result.Payslip.TakeHomePay)
+	payAllTHP := utils.ConvertFloatToString(SumTHP)
 
 	var Result = models.SummarySalariesRes{
 		UserID:                 result.Payslip.UserID.String(),
 		Username:               result.Username,
-		TakeHomePay:            result.Payslip.TakeHomePay,
-		TakeHomePayAllEmployee: float64(CountTHP),
+		TakeHomePay:            payTHP + "IDR",
+		TakeHomePayAllEmployee: payAllTHP + "IDR",
 	}
 
 	return Result, nil

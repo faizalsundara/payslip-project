@@ -39,6 +39,9 @@ func (s *attendanceService) AttendanceLoginTime(userID uuid.UUID, date time.Time
 	}
 
 	Result := config.DB.Create(&attendance)
+	if Result.Error != nil {
+		return 0, Result.Error
+	}
 	return int(Result.RowsAffected), nil
 }
 func (s *attendanceService) AttendanceLogoutTime(userID uuid.UUID, date time.Time, ip string) (result int, err error) {
@@ -93,7 +96,7 @@ func (s *attendanceService) AttendancePeriod(startDate time.Time, endDate time.T
 		StartDate: startDate,
 		EndDate:   endDate,
 		CreatedBy: adminID,
-		IsPaid:    false,
+		IsPaid:    "O", //false = "O" && true = "I"
 		IPAddress: ip,
 	}
 

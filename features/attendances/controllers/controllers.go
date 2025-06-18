@@ -22,6 +22,7 @@ func NewAttendanceController(attSvc services.AttendanceInterface) *AttendanceCon
 }
 
 func (ec *AttendanceController) AttendanceLoginTime(c *gin.Context) {
+
 	var body struct {
 		Date string `json:"date"`
 	}
@@ -37,8 +38,10 @@ func (ec *AttendanceController) AttendanceLoginTime(c *gin.Context) {
 		return
 	}
 
-	// userID := uuid.MustParse(c.GetString("user_id"))
-	userID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	userID := uuid.MustParse(c.GetString("user_id"))
+	fmt.Println("User---ID", userID)
+	// userID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	// userID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 	ip := c.ClientIP()
 
 	_, errAttend := ec.attendanceService.AttendanceLoginTime(userID, date, ip)
@@ -48,7 +51,8 @@ func (ec *AttendanceController) AttendanceLoginTime(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, utils.ResponseSuccesNoData("Login Time Submitted"))
+	c.JSON(http.StatusOK, utils.ResponseSuccesNoData("login time Submitted"))
+	return
 }
 
 func (ec *AttendanceController) AttendanceLogoutTime(c *gin.Context) {
@@ -68,8 +72,9 @@ func (ec *AttendanceController) AttendanceLogoutTime(c *gin.Context) {
 		return
 	}
 
-	// userID := uuid.MustParse(c.GetString("user_id"))
-	userID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	userID := uuid.MustParse(c.GetString("user_id"))
+	// userID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	// userID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 	ip := c.ClientIP()
 
 	_, errAttend := ec.attendanceService.AttendanceLogoutTime(userID, date, ip)
@@ -78,7 +83,8 @@ func (ec *AttendanceController) AttendanceLogoutTime(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, utils.ResponseSuccesNoData("Logout Time Submitted"))
+	c.JSON(http.StatusOK, utils.ResponseSuccesNoData("logout time submitted"))
+	return
 }
 
 func (ec *AttendanceController) AttendancePeriode(c *gin.Context) {
@@ -106,10 +112,13 @@ func (ec *AttendanceController) AttendancePeriode(c *gin.Context) {
 
 	ip := c.ClientIP()
 	adminID := uuid.MustParse(c.GetString("user_id"))
+	// adminID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	// adminID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 	_, errAttend := ec.attendanceService.AttendancePeriod(startDate, endDate, adminID, ip)
 	if errAttend != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseFailed(errAttend.Error()))
 		return
 	}
 	c.JSON(http.StatusOK, utils.ResponseSuccesNoData("Attendance period created successfully"))
+	return
 }

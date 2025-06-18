@@ -14,23 +14,30 @@ func NewPayrollService() PayrollsInterface {
 	return &payrollService{}
 }
 
-func (pyl *payrollService) PayrollPeriod(IsPaid bool, periodId uuid.UUID, adminID uuid.UUID) (int, error) {
+func (pyl *payrollService) PayrollPeriod(periodId uuid.UUID, adminID uuid.UUID) (int, error) {
 	var attendPeriode models.AttendancePeriod
-	if err := config.DB.Where("is_paid = ? AND period_id = ?", false, periodId).First(&attendPeriode).Error; err != nil {
+	if err := config.DB.Where("is_paid = ? AND id = ?", "O", periodId).First(&attendPeriode).Error; err != nil {
 		return 0, err
 	}
 
-	if attendPeriode.IsPaid {
+	if attendPeriode.IsPaid == "I" {
 		return 0, errors.New("Payroll was done")
 	}
 	payroll := models.Payroll{
+		ID:        uuid.New(),
 		PeriodID:  periodId,
-		IsPaid:    IsPaid,
+		IsPaid:    "I",
 		CreatedBy: adminID,
 	}
-	res := config.DB.Create(&payroll)
+	errCreate := config.DB.Create(&payroll).Error
+	if errCreate != nil {
+		return 0, errCreate
+	}
+
+	res := config.DB.Model(&attendPeriode).Where("is_paid = ? AND id = ?", "O", periodId).Update("is_paid", "I")
 	if res.Error != nil {
 		return 0, res.Error
 	}
+
 	return int(res.RowsAffected), nil
 }

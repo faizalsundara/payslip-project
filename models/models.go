@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
+	// "gorm.io/gorm"
 )
 
 type User struct {
@@ -19,9 +19,9 @@ type User struct {
 
 type AttendancePeriod struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
-	StartDate time.Time
-	EndDate   time.Time
-	IsPaid    bool
+	StartDate time.Time `gorm:"type:date"`
+	EndDate   time.Time `gorm:"type:date"`
+	IsPaid    string
 	IPAddress string
 	CreatedBy uuid.UUID
 	CreatedAt time.Time
@@ -43,7 +43,7 @@ type Attendance struct {
 type Overtime struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserID    uuid.UUID
-	Date      time.Time `gorm:"uniqueIndex:idx_user_date"`
+	Date      time.Time `gorm:"uniqueIndex:idx_user_date;type:date"`
 	Hours     float64
 	CreatedAt time.Time
 	CreatedBy uuid.UUID
@@ -53,6 +53,7 @@ type Overtime struct {
 type Reimbursement struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserID      uuid.UUID
+	Date        time.Time `gorm:"type:date"`
 	Amount      float64
 	Description string
 	CreatedBy   uuid.UUID
@@ -63,23 +64,26 @@ type Reimbursement struct {
 type Payroll struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
 	PeriodID  uuid.UUID
-	IsPaid    bool
+	IsPaid    string
 	CreatedBy uuid.UUID
 	CreatedAt time.Time
-	StartDate time.Time
-	EndDate   time.Time
+	StartDate time.Time `gorm:"type:date"`
+	EndDate   time.Time `gorm:"type:date"`
 }
 
 type Payslip struct {
 	ID                  uuid.UUID `gorm:"type:uuid;primaryKey"`
 	PayrollID           uuid.UUID
 	UserID              uuid.UUID
-	BaseSalary          float64
+	StartDate           time.Time `gorm:"type:date"`
+	EndDate             time.Time `gorm:"type:date"`
+	BaseSalaryDay       float64
+	BaseSalaryOvertime  float64
+	SalaryThisMonth     float64
+	SalaryOvertimeTotal float64
 	TotalAttendanceDays int64
 	TotalOvertimeHours  float64
 	TotalReimbursements float64
-	StartDate           time.Time
-	EndDate             time.Time
 	TakeHomePay         float64
 	CreatedAt           time.Time
 }
@@ -95,22 +99,39 @@ type AuditLog struct {
 	CreatedAt time.Time
 }
 
-func AutoMigrate(db *gorm.DB) error {
-	return db.AutoMigrate(
-		&User{},
-		&AttendancePeriod{},
-		&Attendance{},
-		&Overtime{},
-		&Reimbursement{},
-		&Payroll{},
-		&Payslip{},
-		&AuditLog{},
-	)
-}
+// func AutoMigrate(db *gorm.DB) error {
+// 	return db.AutoMigrate(
+// 		&User{},
+// 		&AttendancePeriod{},
+// 		&Attendance{},
+// 		&Overtime{},
+// 		&Reimbursement{},
+// 		&Payroll{},
+// 		&Payslip{},
+// 		&AuditLog{},
+// 	)
+// }
 
 type SummarySalariesRes struct {
-	UserID                 string  `json:"userID"`
-	Username               string  `json:"username"`
-	TakeHomePay            float64 `json:"takeHomePay"`
-	TakeHomePayAllEmployee float64 `json:"takeHomePayAllEmployee"`
+	UserID                 string
+	Username               string
+	TakeHomePay            string
+	TakeHomePayAllEmployee string
+}
+
+type PayslipRes struct {
+	ID                  uuid.UUID
+	PayrollID           uuid.UUID
+	UserID              uuid.UUID
+	StartDate           time.Time
+	EndDate             time.Time
+	BaseSalaryDay       string
+	BaseSalaryOvertime  string
+	SalaryThisMonth     string
+	SalaryOvertimeTotal string
+	TotalAttendanceDays int64
+	TotalOvertimeHours  float64
+	TotalReimbursements float64
+	TakeHomePay         string
+	CreatedAt           time.Time
 }

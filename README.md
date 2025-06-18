@@ -3,9 +3,6 @@
 <!-- PROJECT LOGO -->
 <br/>
 <div align="center">
-<!-- <a href="https://github.com/Group1-House-Fancy">
-    <img src="images/house-fancy-logo.png" alt="Logo" width="700" height="350">
-  </a> -->
   <h3 align="center">Project-Task "Pay Slip" </h3>
 
 </div>
@@ -17,7 +14,25 @@ Pay Slip merupakan project task untuk sistem penggajian menggunakan tech-stack R
 Dilengkapi dengan berbagai fitur yang memungkinkan user employee dan user admin melakukan proses record kehadiran(attendance), lembur(overtime), reimbursement, sampai payroll, pay slip, dan summary dari salaries employee. 
 Adapun fitur yang ada dalam RESTful API kami antara lain :
 <div>
-      <details>
+<details>
+<summary>🙎 Users</summary>
+  
+  <!---
+  | Command | Description |
+| --- | --- |
+  --->
+  
+ Fitur users digunakan untuk melihat detail list users dan juga login agar bisa mengakses fitur slip pay.
+ 
+<div>
+  
+| Feature Users | Endpoint | Param | JWT Token | Fungsi |
+| --- | --- | --- | --- | --- |
+| GET | users  | - | - | Melihat detail list user |
+| POST | users/login | - | - | Melakukan login pada sistem slip pay |
+</details>
+
+<details>
 <summary>🙎 Attendance</summary>
   
   <!---
@@ -108,12 +123,12 @@ Summary Salaries merupakan fitur yang digunakan oleh admin untuk melihat take ho
 
 | Feature Contractor | Endpoint | Param | JWT Token | Fungsi |
 | --- | --- | --- | --- | --- |
-| GET | /employee/payslip | - | YES | Mencetak/melihat take home pay employee |
+| GET | /admin/summary-salaries | - | YES | Mencetak/melihat take home pay employee |
 
 </details>
 
 ### Swagger
-<a href="https://app.swaggerhub.com/apis-docs/faizalsundara/Kelompok1/1.0.0#/"><strong> Link »</strong></a>
+<a href="https://app.swaggerhub.com/apis-docs/faizalsundara/Test-BuddyKu/1.0.0/"><strong> Link »</strong></a>
 
 <!-- IMAGES -->
 ### 🖼&nbsp;Images

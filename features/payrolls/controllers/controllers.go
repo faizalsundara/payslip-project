@@ -21,7 +21,6 @@ func NewPayrollController(pyl services.PayrollsInterface) *payrollController {
 
 func (pyl *payrollController) PayrollPeriod(c *gin.Context) {
 	var body struct {
-		IsPaid   bool   `json:"isPaid"`
 		PeriodId string `json:"periodID"`
 	}
 
@@ -29,11 +28,12 @@ func (pyl *payrollController) PayrollPeriod(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, utils.ResponseFailed("Invalid input"))
 		return
 	}
-	// adminID := uuid.MustParse(c.GetString("user_id"))
-	adminID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	adminID := uuid.MustParse(c.GetString("user_id"))
+	// adminID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	// adminID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 	periodID := uuid.MustParse(body.PeriodId)
 
-	_, errPayroll := pyl.payrollService.PayrollPeriod(body.IsPaid, periodID, adminID)
+	_, errPayroll := pyl.payrollService.PayrollPeriod(periodID, adminID)
 	if errPayroll != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseFailed(errPayroll.Error()))
 		return

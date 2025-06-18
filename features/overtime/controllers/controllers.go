@@ -43,8 +43,9 @@ func (ovt *overtimeController) SubmitOvertime(c *gin.Context) {
 		return
 	}
 
-	// userID := uuid.MustParse(c.GetString("user_id"))
-	userID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	userID := uuid.MustParse(c.GetString("user_id"))
+	// userID := uuid.MustParse("af47a9c9-3cad-4ee0-8c6a-e3f2eadaaccb")
+	// userID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 	ip := c.ClientIP()
 
 	_, errSubmit := ovt.overtimeServices.SubmitOvertime(userID, date, hours, ip)

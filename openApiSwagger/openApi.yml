@@ -1,0 +1,531 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: PAY SLIP
+  description: The System for Employee Payment
+  contact:
+    name: Faizal Ramadhan Sundara
+    email: faizalramadhansundara@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/faizalsundara/payslip/1.0.0
+  
+tags:
+  - name: Users
+    description: Get All Users and Login
+  - name: Attendances
+    description: Employee Attendance in office hour by check-in and check-out 
+  - name: Overtime
+    description: Assignment for work overtime
+  - name: Reimbursement
+    description: Assignment by ammount and add description for reimburs
+  - name: Payroll
+    description: Paid for employment according attendance period
+  - name: Payslip
+    description: Get data Take Home Pay for employee
+  - name: Summary Salaries
+    description: Get Summary data every employee for admin
+ 
+paths:
+  /users:
+    get:
+      tags:
+        - Users
+      description: Get All users
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                      "message": "login time submitted",
+                      "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input"
+                  }
+  /users/login:
+    post:
+      tags:
+        - Users
+      description: Auth for Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestLogin'
+            examples:
+              userData1:
+                description: "Example data input login"
+                value: {
+                    "username":"Koelpin5732942",
+                   "password":"password123"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                      "message": "login time submitted",
+                      "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input"
+                  }
+  /employee/login-time:
+    post:
+      tags:
+        - Attendances
+      description: Record every check-in and checkout for office hour
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestAttendances'
+            examples:
+              userData1:
+                description: "Example data  check-in 1"
+                value: {
+                  date: "2025-06-13"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                      "message": "login time submitted",
+                      "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input"
+                  }
+  /employee/logout-time::
+    post:
+      tags:
+        - Attendances
+      description: Record every check-in and checkout for office hour
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestAttendances'
+            examples:
+              userData1:
+                description: "Example data  check-in 1"
+                value: {
+                  date: "2025-06-13"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                      "message": "logout time submitted",
+                      "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input"
+                  }
+  /admin/attendance-period:
+    post:
+      tags:
+        - Attendances
+      description: Attendance Period for period start date and end date every payroll
+      security:
+        - JWTAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestAttendancePeriod'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                    startDate: "2025-05-01",
+                    endDate: "2025-05-30",
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                      "message": "attendance period created successfully",
+                      "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input",
+                  }
+  /employee/overtime:
+    post:
+      tags:
+        - Overtime
+      description: Assignment work overtime 
+      security:
+        - JWTAuth: []      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestOvertime'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                  "date": "2025-06-05",
+                  "hours": 2.5
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                          "message": "overtime submit success",
+                          "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input",
+                  }
+  /employee/reimbursement:
+    post:
+      tags:
+        - Reimbursement
+      description: Assignment reimbursement for employee
+      security:
+        - JWTAuth: []      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestReimbursement'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                    "amount":50.000,
+                    "description":"membeli makan siang karyawan 2 orang",
+                    "date":"2025-06-5"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                          "message": "submit reimburs success",
+                          "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input",
+                  }  
+  /admin/payroll:
+    post:
+      tags:
+        - Payroll
+      description: Process paid employment by attendace period 
+      security:
+        - JWTAuth: []      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestPayroll'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                  "periodId": "50d9a26a-6ab6-4a2b-8043-4925fc639588"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                          "message": "payroll success",
+                          "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input",
+                  }
+  /employee/payslip:
+    post:
+      tags:
+        - Payslip
+      description: generate detail payment employee 
+      security:
+        - JWTAuth: []     
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestPayslip'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                  "periodId": "50d9a26a-6ab6-4a2b-8043-4925fc639588"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                          "data": {
+                              "ID": "bc4ae23f-37f5-4cb4-acae-734243642213",
+                              "PayrollID": "200faaae-7de1-44f2-9716-81bf46f52cf8",
+                              "UserID": "6b4c795f-4bc5-4b28-96a8-0b245ac69e23",
+                              "StartDate": "2025-06-01T00:00:00Z",
+                              "EndDate": "2025-06-30T00:00:00Z",
+                              "BaseSalaryDay": "285109.69IDR",
+                              "BaseSalaryOvertime": "35638.71IDR",
+                               "SalaryThisMonth": "570219.38IDR",
+                              "SalaryOvertimeTotal": "71277.42IDR",
+                              "TotalAttendanceDays": 2,
+                              "TotalOvertimeHours": 1,
+                              "TotalReimbursements": 0,
+                              "TakeHomePay": "641496.80IDR",
+                              "CreatedAt": "2025-06-18T08:18:56.4334166+07:00"
+    },
+    "message": "generate payslip success",
+    "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input",
+                  }
+  /admin/summary-salaries:
+    get:
+      tags:
+        - Summary Salaries
+      description: Bisa diaplikasikan ketika user ingin melihat profilnya
+      security:
+        - JWTAuth: []
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                          "data": {
+                                     "userID": "6b4c795f-4bc5-4b28-96a8-0b245ac69e23",
+                                     "username": "Bradtke2877047",
+                                     "takeHomePay": "641496.80IDR",
+                                       "takeHomePayAllEmployee": "641496.80IDR"
+                                 },
+                          "message": "success get summary",
+                          "status": "success"
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    status: "error",
+                    message: "invalid input",
+                  }
+
+components:
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "use Token"
+  schemas:
+    requestLogin:
+      type: object
+      properties:
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+
+    responseSuccess:
+      type: object
+      properties: {
+        "status": {
+          type: string
+        },
+        "message": {
+          type: string
+        },
+        "data":{
+          type: object
+        }
+      }
+    
+    requestAttendances:
+      type: object
+      properties:
+        "date":
+          type: string
+          minLength: 1
+    requestAttendancePeriod:
+      type: object
+      properties:
+        "startDate":
+          type: string
+          minLength: 1
+        "endtDate":
+          type: string
+          minLength: 1
+    requestOvertime:
+      type: object
+      properties:
+        "date":
+          type: string
+          minLength: 1
+        "hours":
+          type: integer
+    requestReimbursement:
+      type: object
+      properties:
+        "amount":
+          type: integer
+        "description":
+          type: string
+          minLength: 1
+        "date":
+          type: string
+          minLength: 1
+    requestPayroll:
+      type: object
+      properties:
+        "periodID":
+          type: string
+          minLength: 1
+    requestPayslip:
+      type: object
+      properties:
+        "periodID":
+          type: string
+          minLength: 1

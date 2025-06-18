@@ -3,6 +3,7 @@ package services
 import (
 	"salaries-payslip/config"
 	"salaries-payslip/models"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -13,8 +14,10 @@ func NewReimbersementService() ReimbursementInterfaces {
 	return &reimbursementService{}
 }
 
-func (reimburs *reimbursementService) SubmitReimburs(amount float64, userID uuid.UUID, description string, ip string) (int, error) {
+func (reimburs *reimbursementService) SubmitReimburs(amount float64, userID uuid.UUID, description string, ip string, date time.Time) (int, error) {
 	var reimbursInsert = models.Reimbursement{
+		ID:          uuid.New(),
+		Date:        date,
 		UserID:      userID,
 		Amount:      amount,
 		Description: description,

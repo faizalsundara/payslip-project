@@ -1,7 +1,11 @@
 package services
 
-import "github.com/google/uuid"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type ReimbursementInterfaces interface {
-	SubmitReimburs(amount float64, userID uuid.UUID, description string, ip string) (int, error)
+	SubmitReimburs(amount float64, userID uuid.UUID, description string, ip string, date time.Time) (int, error)
 }

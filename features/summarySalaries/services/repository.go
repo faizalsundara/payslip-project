@@ -7,5 +7,5 @@ import (
 )
 
 type SummarySalariesInterface interface {
-	SummaryTHP(userID uuid.UUID, payrollID uuid.UUID) (models.SummarySalariesRes, error)
+	SummaryTHP(userID uuid.UUID, periodID uuid.UUID) (models.SummarySalariesRes, error)
 }

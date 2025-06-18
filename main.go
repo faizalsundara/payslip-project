@@ -19,9 +19,9 @@ func main() {
 
 	config.ConnectDatabase()
 
-	if err := models.AutoMigrate(config.DB); err != nil {
-		log.Fatal("Migration failed:", err)
-	}
+	// if err := models.AutoMigrate(config.DB); err != nil {
+	// 	log.Fatal("Migration failed:", err)
+	// }
 	models.Seed(config.DB)
 
 	r := gin.Default()

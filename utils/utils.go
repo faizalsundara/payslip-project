@@ -40,3 +40,8 @@ func ConvertToDuration(timeStr string) (time.Duration, error) {
 
 	return duration, nil
 }
+
+func ConvertFloatToString(num float64) string {
+	str := strconv.FormatFloat(num, 'f', 2, 64)
+	return str
+}

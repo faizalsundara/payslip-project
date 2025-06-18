@@ -37,6 +37,7 @@ func (OS *overtimeServices) SubmitOvertime(userID uuid.UUID, date time.Time, hou
 		return 0, errors.New("job duration under 8 hours")
 	}
 	var overtime = models.Overtime{
+		ID:        uuid.New(),
 		UserID:    userID,
 		Date:      date,
 		IPAddress: ipAddress,

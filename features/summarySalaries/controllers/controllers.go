@@ -31,12 +31,13 @@ func (SS *SummarySalariesController) SummaryTHP(c *gin.Context) {
 	}
 
 	userID := uuid.MustParse(body.UserID)
+	// userID := uuid.MustParse("6b4c795f-4bc5-4b28-96a8-0b245ac69e23")
 	periodID := uuid.MustParse(body.PeriodID)
 	res, errSvc := SS.SummarySalaries.SummaryTHP(userID, periodID)
 	if errSvc != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseFailed(errSvc.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, utils.ResponseSuccesWithData("success", res))
+	c.JSON(http.StatusOK, utils.ResponseSuccesWithData("success get summary", res))
 	return
 }

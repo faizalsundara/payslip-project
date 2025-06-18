@@ -1,8 +1,10 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -19,21 +21,35 @@ func AuthMiddleware(role string) gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing token"})
 			return
 		}
+		fmt.Println("tokennn", tokenStr)
+
+		if strings.HasPrefix(tokenStr, "Bearer ") {
+			tokenStr = strings.TrimPrefix(tokenStr, "Bearer ")
+		}
 
 		token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
 			return jwtSecret, nil
 		})
 
-		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			if role != "" && claims["role"] != role {
-				c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Forbidden"})
-				return
-			}
-			c.Set("user_id", claims["user_id"])
-			c.Set("role", claims["urole"])
-			c.Next()
-		} else {
+		if err != nil || !token.Valid {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token", "details": err.Error()})
+			return
 		}
+
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid claims"})
+			return
+		}
+
+		claimRole, ok := claims["role"].(string)
+		if role != "" && (!ok || claimRole != role) {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Forbidden"})
+			return
+		}
+
+		c.Set("user_id", claims["user_id"])
+		c.Set("role", claimRole)
+		c.Next()
 	}
 }
